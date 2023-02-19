@@ -39,12 +39,3 @@ services:
     devices:
       - /dev/fuse
     command: "tail -f /dev/null"
-
-volumes:
-
-  dist:
-    driver: local
-    driver_opts:
-      device: ${PWD}/dist
-      type: none
-      o: bind
