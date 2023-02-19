@@ -1,4 +1,4 @@
-!./mnt/config/.gitkeep
-./mnt/config
+mnt/config/.gitkeep
+mnt/config
 
-./.env
+.env
