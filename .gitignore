@@ -1,0 +1,4 @@
+!./mnt/config/.gitkeep
+./mnt/config
+
+./.env

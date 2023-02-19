@@ -1,0 +1,50 @@
+version: "3.7"
+
+services:
+  cloud:
+    image: rclone_cloud
+    build:
+      context: ./
+    restart: unless-stopped
+    network_mode: host
+    user: ${RCLONE_PUID}:${RCLONE_PGID}
+    cap_add:
+      - SYS_ADMIN
+    privileged: true
+    security_opt:
+      - "apparmor:unconfined"
+    environment:
+      - PUID=${RCLONE_PUID}
+      - PGID=${RCLONE_PGID}
+      - RCLONE_DIR_CACHE_TIME=30m
+      - RCLONE_VFS_CACHE_MODE=full
+      - RCLONE_CACHE_DIR=/mnt/volume/cache1
+      - RCLONE_VFS_CACHE_MAX_SIZE=1000G
+      - RCLONE_VFS_WRITE_BACK=30m
+      - RCLONE_VFS_CACHE_MAX_AGE=720h
+      - RCLONE_LOG_LEVEL=INFO
+      - RCLONE_LOG_FILE=/config/rclone/rclone.log
+      - RCLONE_ALLOW_OTHER=true
+      - RCLONE_ALLOW_NON_EMPTY=true
+      - RCLONE_VFS_READ_AHEAD=256M
+      - RCLONE_UID=${RCLONE_PUID}
+      - RCLONE_GID=${RCLONE_PGID}
+      - RCLONE_ATTR_TIMEOUT=1m
+    volumes:
+      - ./mnt/config:/opt/config
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/fuse.conf:/etc/fuse.conf:ro
+      - ${EXTERNAL_VOLUMES_PATH}/cloud:/data:rshared
+    devices:
+      - /dev/fuse
+    command: "tail -f /dev/null"
+
+volumes:
+
+  dist:
+    driver: local
+    driver_opts:
+      device: ${PWD}/dist
+      type: none
+      o: bind
