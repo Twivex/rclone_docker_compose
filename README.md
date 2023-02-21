@@ -13,6 +13,6 @@
 
 5. Copy config file(s) to `mnt/config/`
 
-    **Note:** The config file(s) must be named `{drive_name}.conf`
+    **Note:** The config file(s) must be named `{drive_name}.conf`. This is also the name of the directory in `/data` (respectively in `$EXTERNAL_VOLUMES_PATH/cloud`) where the files will be stored.
 
 6. Start service: `docker-compose up -d`
